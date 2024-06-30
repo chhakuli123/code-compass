@@ -1,3 +1,5 @@
-export default function Home() {
-  return <div>Hi from CodeCompass</div>;
-}
+import Homepage from '@/components/home/Homepage';
+
+const page = () => <Homepage />;
+
+export default page;
