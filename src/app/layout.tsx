@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from 'next';
-import { fontSans } from 'lib/fonts';
-
-import { siteConfig } from '@/config/site';
 
 import '@/styles/globals.css';
+
+import { siteConfig } from '@/config/site';
+import { inter } from '@/lib/fonts';
 
 export const metadata: Metadata = {
   title: {
@@ -25,9 +25,7 @@ type RootLayoutProps = Readonly<{
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body
-        className={`min-h-screen font-sans antialiased ${fontSans.className}`}
-      >
+      <body className={`min-h-screen font-sans antialiased ${inter.className}`}>
         {children}
       </body>
     </html>
