@@ -1,3 +1,4 @@
+import Footer from '@/layout/footer/Footer';
 import Navbar from '@/layout/navbar/Navbar';
 
 import FeaturesSection from './section/FeaturesSection';
@@ -9,6 +10,7 @@ const Homepage = () => {
       <Navbar />
       <HeroSection />
       <FeaturesSection />
+      <Footer />
     </div>
   );
 };
