@@ -20,11 +20,11 @@ export async function callChain({ question, chatHistory }: callChainArgs) {
     const sanitizedQuestion = question.trim().replaceAll("\n", " ");
     const pineconeClient = await getPineconeClient();
     const vectorStore = await getVectorStore(pineconeClient);
-    const retriever = vectorStore.asRetriever({
-      searchKwargs: { k: 5 },  // Increase from default 4 to 5
-      searchType: "mmr",  // Use Maximum Marginal Relevance for diverse results
-      filter: { type: "code" }  // Add a filter if you've categorized your embeddings
-    });
+    // const retriever = vectorStore.asRetriever({
+    //   searchKwargs: { k: 5 },  // Increase from default 4 to 5
+    //   searchType: "mmr",  // Use Maximum Marginal Relevance for diverse results
+    //   filter: { type: "code" }  // Add a filter if you've categorized your embeddings
+    // });
     const { stream, handlers } = LangChainStream({
       experimental_streamData: true,
     });

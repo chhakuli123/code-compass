@@ -17,7 +17,8 @@ import { embedAndStoreDocs } from "@/lib/vector-store";
     const docs = plainTextData.split('[FILE_START]')
       .slice(1) // Remove the first empty element
       .map(block => {
-        const [pathAndContent, ...rest] = block.split('[FILE_END]');
+        // const [pathAndContent, ...rest] = block.split('[FILE_END]');
+        const [pathAndContent] = block.split('[FILE_END]');
         const [path, ...contentLines] = pathAndContent.split('\n');
         const content = contentLines.join('\n').trim();
 
@@ -33,7 +34,8 @@ import { embedAndStoreDocs } from "@/lib/vector-store";
     const directories = plainTextData.split('[DIR_START]')
       .slice(1) // Remove the first empty element
       .map(block => {
-        const [path, ...rest] = block.split('\n');
+        // const [path, ...rest] = block.split('\n');
+        const [path] = block.split('\n');
         return {
           id: path.trim(),
           text: `Directory: ${path.trim()}`,
