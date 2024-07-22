@@ -43,7 +43,7 @@ import { embedAndStoreDocs } from "@/lib/vector-store";
         };
       });
 
-    const validDocs = [...docs, ...directories];
+    const validDocs = [...docs];
 
     if (validDocs.length === 0) {
       throw new Error("No valid documents to process.");
