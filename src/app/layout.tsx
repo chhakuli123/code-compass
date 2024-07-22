@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 
 import '@/styles/globals.css';
 
+import Navbar from '@/layout/navbar/Navbar';
+
 import { siteConfig } from '@/config/site';
 import { inter } from '@/lib/fonts';
 
@@ -28,6 +30,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body
         className={`min-h-scree bg-primary-950 antialiased ${inter.className}`}
       >
+        <Navbar />
         {children}
       </body>
     </html>

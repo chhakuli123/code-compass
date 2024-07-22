@@ -1,51 +1,59 @@
-"use client";
+'use client';
 
-import { scrollToBottom, initialMessages, getSources } from "@/lib/utils";
-import { ChatLine } from "./chat-line";
-import { useChat, Message } from "ai-stream-experimental/react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
+import { Message, useChat } from 'ai-stream-experimental/react';
+import { LuSend } from 'react-icons/lu';
+
+import { getSources, initialMessages, scrollToBottom } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
+
+import { ChatLine } from './chat-line';
 
 export function Chat() {
-const containerRef = useRef<HTMLDivElement | null>(null);
-const { messages, input, handleInputChange, handleSubmit, isLoading, data } =
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const { messages, input, handleInputChange, handleSubmit, isLoading, data } =
     useChat({
-        initialMessages: initialMessages.map((message) => ({
-            ...message,
-            role: message.role as "function" | "system" | "user" | "assistant",
-        })),
+      initialMessages: initialMessages.map((message) => ({
+        ...message,
+        role: message.role as 'function' | 'system' | 'user' | 'assistant',
+      })),
     });
 
-useEffect(() => {
+  useEffect(() => {
     setTimeout(() => scrollToBottom(containerRef), 100);
-}, [messages]);
+  }, [messages]);
 
   return (
-    <div className="rounded-2xl border h-[75vh] flex flex-col justify-between">
-      <div className="p-6 overflow-auto" ref={containerRef}>
+    <div className=" flex h-[100vh] flex-col justify-between bg-gradient-to-l from-green-900 to-green-900 text-white">
+      <div className="flex-grow overflow-auto px-44 py-32" ref={containerRef}>
         {messages.map(({ id, role, content }: Message, index) => (
           <ChatLine
             key={id}
             role={role}
             content={content}
-            // Start from the third message of the assistant
             sources={data?.length ? getSources(data, role, index) : []}
           />
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="p-4 flex clear-both">
+      <form
+        onSubmit={handleSubmit}
+        className="clear-both flex items-center justify-center p-4"
+      >
         <Input
           value={input}
-          placeholder={"Type to chat with AI..."}
+          placeholder="Type to chat with AI..."
           onChange={handleInputChange}
-          className="mr-2"
+          className="mr-2 w-[70%] rounded-3xl border-gray-500 bg-green-700 py-6 text-white placeholder:text-white focus:border-green-500"
         />
-
-        <Button type="submit" className="w-24">
-          {isLoading ? <Spinner /> : "Ask"}
+        <Button
+          type="submit"
+          className="rounded-full border border-gray-500 bg-green-700 px-3 py-6 shadow-lg hover:bg-green-500"
+          disabled={!input}
+        >
+          {isLoading ? <Spinner /> : <LuSend size={24} />}
         </Button>
       </form>
     </div>
