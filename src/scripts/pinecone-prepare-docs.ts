@@ -8,7 +8,7 @@ import { embedAndStoreDocs } from "@/lib/vector-store";
 
     console.log("Scraping repository and preparing plain text data...");
 
-    const repoUrl = "https://github.com/IRSHIT033/VIBE-n"; // Replace with your desired repository URL
+    const repoUrl = "https://github.com/chhakuli123/ATTIREX-FASHION"; // Replace with your desired repository URL
     const plainTextData: string = await scrapeRepositoryToPlainText(repoUrl);
 
     console.log(`Scraped repository content as plain text.`);
@@ -31,19 +31,19 @@ import { embedAndStoreDocs } from "@/lib/vector-store";
       .filter(doc => doc.text.length > 0);
 
     // Process directories
-    const directories = plainTextData.split('[DIR_START]')
-      .slice(1) // Remove the first empty element
-      .map(block => {
-        // const [path, ...rest] = block.split('\n');
-        const [path] = block.split('\n');
-        return {
-          id: path.trim(),
-          text: `Directory: ${path.trim()}`,
-          metadata: { type: 'directory', path: path.trim() }
-        };
-      });
+    // const directories = plainTextData.split('[DIR_START]')
+    //   .slice(1) // Remove the first empty element
+    //   .map(block => {
+    //     // const [path, ...rest] = block.split('\n');
+    //     const [path] = block.split('\n');
+    //     return {
+    //       id: path.trim(),
+    //       text: `Directory: ${path.trim()}`,
+    //       metadata: { type: 'directory', path: path.trim() }
+    //     };
+    //   });
 
-    const validDocs = [...docs, ...directories];
+    const validDocs = [...docs];
 
     if (validDocs.length === 0) {
       throw new Error("No valid documents to process.");

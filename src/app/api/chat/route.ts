@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { callChain } from "@/lib/langchain";
 import { Message } from "ai";
 
+let persistentIndexname: string | undefined;
+
 const formatMessage = (message: Message) => {
-  return `${message.role === "user" ? "Human" : "Assistant"}: ${
-    message.content
-  }`;
+  return `${message.role === "user" ? "Human" : "Assistant"}: ${message.content}`;
 };
 
 export async function POST(req: NextRequest) {
@@ -15,7 +15,13 @@ export async function POST(req: NextRequest) {
   const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage);
   const question = messages[messages.length - 1].content;
 
-  console.log("Chat history ", formattedPreviousMessages.join("\n"));
+  console.log("API REQ BODY", body);
+
+  // Change index name only when it's not undefined
+  if (body.indexname !== undefined) {
+    console.log("I'm checking the indexname", body.indexname);
+    persistentIndexname = body.indexname;
+  }
 
   if (!question) {
     return NextResponse.json("Error: No question in the request", {
@@ -27,6 +33,7 @@ export async function POST(req: NextRequest) {
     const streamingTextResponse = callChain({
       question,
       chatHistory: formattedPreviousMessages.join("\n"),
+      indexname: persistentIndexname!,
     });
 
     return streamingTextResponse;

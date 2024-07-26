@@ -6,6 +6,7 @@ import { Pinecone } from '@pinecone-database/pinecone';
 export async function embedAndStoreDocs(
   client: Pinecone,
   docs: { id: string, text: string }[] // Adjusted to match the document structure
+
 ) {
   try {
     console.log("Initializing embeddings...");
@@ -35,10 +36,11 @@ export async function embedAndStoreDocs(
 }
 
 // Returns vector-store handle to be used as retrievers on langchains
-export async function getVectorStore(client: Pinecone) {
+export async function getVectorStore(client: Pinecone, indexname: string) {
   try {
     const embeddings = new OpenAIEmbeddings();
-    const pineconeIndex = client.Index(env.PINECONE_INDEX_NAME);
+    console.log('Checking is index name is correct', indexname);
+    const pineconeIndex = client.Index(indexname);
 
     const vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
       pineconeIndex,
