@@ -18,6 +18,7 @@ const Footer = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 0 }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
+      id="contact"
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center justify-between md:flex-row">

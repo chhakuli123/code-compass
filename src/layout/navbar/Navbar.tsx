@@ -3,9 +3,9 @@ import Link from 'next/link';
 
 const Navbar = () => {
   const navItems = [
-    { name: 'Projects', href: '/projects' },
-    { name: 'Features', href: '/features' },
-    { name: 'About', href: '/about' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Features', href: '#features' },
+    { name: 'Contact', href: '#contact' },
   ];
 
   return (
