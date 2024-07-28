@@ -5,7 +5,7 @@ import { LuChevronRight, LuCode, LuStar, LuUsers } from 'react-icons/lu';
 import { ProjectCardProps } from 'types';
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
-  title,
+  title, 
   description,
   language,
   lastUpdated,
