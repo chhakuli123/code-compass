@@ -1,6 +1,7 @@
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { env } from "./config";
+import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+
+import { env } from './config';
 
 export async function getChunkedDocsFromPDF() {
   try {
@@ -18,6 +19,6 @@ export async function getChunkedDocsFromPDF() {
     return chunkedDocs;
   } catch (e) {
     console.error(e);
-    throw new Error("PDF docs chunking failed !");
+    throw new Error('PDF docs chunking failed !');
   }
 }

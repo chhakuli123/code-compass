@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Chat } from '@/components/chat/chat';
 import { useParams } from 'next/navigation'; // Use useParams instead of useRouter
+
+import { Chat } from '@/components/chat/chat';
+
 import projects from './project.json'; // Adjust the path according to your directory structure
 
 type Project = {

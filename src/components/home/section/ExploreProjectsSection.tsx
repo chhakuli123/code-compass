@@ -8,7 +8,7 @@ import ProjectCard from './ProjectCart';
 
 const ExploreProjectsSection = () => {
   return (
-    <section className="relative py-20">
+    <section id="projects" className="relative py-20">
       <div className="container mx-auto px-4">
         <motion.h2
           className="mb-6 text-center text-5xl font-bold text-white"

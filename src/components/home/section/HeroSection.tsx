@@ -17,9 +17,12 @@ const HeroSection = () => {
           accelerate development cycles with AI-powered CodeCompass.
         </p>
         <div className="animate-fade-in-up delay-400 mb-12 flex flex-wrap justify-center gap-4">
-          <button className="inline-flex items-center rounded-full bg-white px-8 py-3 text-lg font-semibold text-green-800 transition duration-300 hover:bg-green-100">
+          <Link
+            href="#projects"
+            className="inline-flex items-center rounded-full bg-white px-8 py-3 text-lg font-semibold text-green-800 transition duration-300 hover:bg-green-100"
+          >
             Get Started <LuArrowDown className="ml-2" size={20} />
-          </button>
+          </Link>
           <Link
             target="_blank"
             rel="noopener noreferrer"

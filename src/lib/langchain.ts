@@ -1,13 +1,14 @@
-import { ConversationalRetrievalQAChain } from "langchain/chains";
-import { getVectorStore } from "./vector-store";
-import { getPineconeClient } from "./pinecone-client";
 import {
-  StreamingTextResponse,
   experimental_StreamData,
   LangChainStream,
-} from "ai-stream-experimental";
-import { streamingModel, nonStreamingModel } from "./llm";
-import { STANDALONE_QUESTION_TEMPLATE, QA_TEMPLATE } from "./prompt-templates";
+  StreamingTextResponse,
+} from 'ai-stream-experimental';
+import { ConversationalRetrievalQAChain } from 'langchain/chains';
+
+import { nonStreamingModel, streamingModel } from './llm';
+import { getPineconeClient } from './pinecone-client';
+import { QA_TEMPLATE, STANDALONE_QUESTION_TEMPLATE } from './prompt-templates';
+import { getVectorStore } from './vector-store';
 
 type callChainArgs = {
   question: string;
@@ -15,12 +16,16 @@ type callChainArgs = {
   indexname: string;
 };
 
-export async function callChain({ question, chatHistory, indexname}: callChainArgs) {
+export async function callChain({
+  question,
+  chatHistory,
+  indexname,
+}: callChainArgs) {
   try {
     // Open AI recommendation
-    const sanitizedQuestion = question.trim().replaceAll("\n", " ");
+    const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
     const pineconeClient = await getPineconeClient();
-    const vectorStore = await getVectorStore(pineconeClient,indexname);
+    const vectorStore = await getVectorStore(pineconeClient, indexname);
     // const retriever = vectorStore.asRetriever({
     //   searchKwargs: { k: 5 },  // Increase from default 4 to 5
     //   searchType: "mmr",  // Use Maximum Marginal Relevance for diverse results
@@ -60,7 +65,7 @@ export async function callChain({ question, chatHistory, indexname}: callChainAr
         const pageContents = firstTwoDocuments.map(
           ({ pageContent }: { pageContent: string }) => pageContent
         );
-        console.log("already appended ", data);
+        console.log('already appended ', data);
         data.append({
           sources: pageContents,
         });
@@ -71,6 +76,6 @@ export async function callChain({ question, chatHistory, indexname}: callChainAr
     return new StreamingTextResponse(stream, {}, data);
   } catch (e) {
     console.error(e);
-    throw new Error("Call chain method failed to execute successfully!!");
+    throw new Error('Call chain method failed to execute successfully!!');
   }
 }

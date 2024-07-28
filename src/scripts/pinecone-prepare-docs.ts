@@ -1,22 +1,24 @@
 import { scrapeRepositoryToPlainText } from 'git-repo-parser';
-import { getPineconeClient } from "@/lib/pinecone-client";
-import { embedAndStoreDocs } from "@/lib/vector-store";
+
+import { getPineconeClient } from '@/lib/pinecone-client';
+import { embedAndStoreDocs } from '@/lib/vector-store';
 
 (async () => {
   try {
     const pineconeClient = await getPineconeClient();
 
-    console.log("Scraping repository and preparing plain text data...");
+    console.log('Scraping repository and preparing plain text data...');
 
-    const repoUrl = "https://github.com/chhakuli123/ATTIREX-FASHION"; // Replace with your desired repository URL
+    const repoUrl = 'https://github.com/chhakuli123/ATTIREX-FASHION'; // Replace with your desired repository URL
     const plainTextData: string = await scrapeRepositoryToPlainText(repoUrl);
 
     console.log(`Scraped repository content as plain text.`);
 
     // Parse the structured plain text data
-    const docs = plainTextData.split('[FILE_START]')
+    const docs = plainTextData
+      .split('[FILE_START]')
       .slice(1) // Remove the first empty element
-      .map(block => {
+      .map((block) => {
         // const [pathAndContent, ...rest] = block.split('[FILE_END]');
         const [pathAndContent] = block.split('[FILE_END]');
         const [path, ...contentLines] = pathAndContent.split('\n');
@@ -25,10 +27,10 @@ import { embedAndStoreDocs } from "@/lib/vector-store";
         return {
           id: path.trim(),
           text: content,
-          metadata: { type: 'file', path: path.trim() }
+          metadata: { type: 'file', path: path.trim() },
         };
       })
-      .filter(doc => doc.text.length > 0);
+      .filter((doc) => doc.text.length > 0);
 
     // Process directories
     // const directories = plainTextData.split('[DIR_START]')
@@ -46,16 +48,16 @@ import { embedAndStoreDocs } from "@/lib/vector-store";
     const validDocs = [...docs];
 
     if (validDocs.length === 0) {
-      throw new Error("No valid documents to process.");
+      throw new Error('No valid documents to process.');
     }
 
     console.log(`Loading ${validDocs.length} documents into Pinecone...`);
-    console.log("postprocess", validDocs);
+    console.log('postprocess', validDocs);
 
     await embedAndStoreDocs(pineconeClient, validDocs);
 
-    console.log("Data embedded and stored in Pinecone index");
+    console.log('Data embedded and stored in Pinecone index');
   } catch (error) {
-    console.error("Init client script failed: ", error);
+    console.error('Init client script failed: ', error);
   }
 })();

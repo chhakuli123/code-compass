@@ -40,6 +40,7 @@ const FeaturesSection = () => {
       initial={{ opacity: 0 }}
       animate={inView ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 1, ease: 'easeOut' }}
+      id="features"
     >
       <div className="container mx-auto px-4">
         <h2 className="mb-6 text-center text-5xl font-bold text-white">

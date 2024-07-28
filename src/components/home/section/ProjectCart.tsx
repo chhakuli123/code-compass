@@ -1,11 +1,11 @@
-import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { LuChevronRight, LuCode, LuStar, LuUsers } from 'react-icons/lu';
 
 import { ProjectCardProps } from 'types';
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
-  title, 
+  title,
   description,
   language,
   lastUpdated,

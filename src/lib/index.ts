@@ -1,1 +1,1 @@
-export type { ProjectCardProps } from "../../types/interface/projectCard";
+export type { ProjectCardProps } from '../../types/interface/projectCard';
