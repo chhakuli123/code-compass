@@ -1,5 +1,6 @@
 import { Pinecone } from '@pinecone-database/pinecone';
-import { env } from "./config";
+
+import { env } from './config';
 
 let pineconeClientInstance: Pinecone | null = null;
 
@@ -12,8 +13,8 @@ async function initPineconeClient() {
 
     return pineconeClient;
   } catch (error) {
-    console.error("Error initializing Pinecone client:", error);
-    throw new Error("Failed to initialize Pinecone Client");
+    console.error('Error initializing Pinecone client:', error);
+    throw new Error('Failed to initialize Pinecone Client');
   }
 }
 

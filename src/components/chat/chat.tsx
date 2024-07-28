@@ -109,7 +109,7 @@ export function Chat({ projectname, indexname }: ChatProps) {
         ))}
       </div>
       {/* project name and index name */}
-      <div className="flex items-center justify-center bg-green-700 p-4">
+      <div className="flex items-center justify-center p-4 text-white">
         <p className="text-lg font-semibold">
           Project: {projectname} | Index: {indexname}
         </p>
