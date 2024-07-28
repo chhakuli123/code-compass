@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Script from 'next/script';
 import { FaGithub } from 'react-icons/fa';
 import { LuArrowDown } from 'react-icons/lu';
 
@@ -33,7 +34,42 @@ const HeroSection = () => {
             GitHub
           </Link>
         </div>
-        <div className="animate-fade-in-up delay-600 mx-auto flex h-96 w-full max-w-4xl items-center justify-center rounded-lg bg-white bg-opacity-10 backdrop-blur-lg"></div>
+        <div className="animate-fade-in-up delay-600 mx-auto w-full">
+          <Script
+            src="https://js.storylane.io/js/v1/storylane.js"
+            strategy="lazyOnload"
+          />
+          <div
+            className="sl-embed"
+            style={{
+              position: 'relative',
+              paddingBottom: 'calc(50.52% + 25px)',
+              width: '100%',
+              height: 0,
+              transform: 'scale(1)',
+            }}
+          >
+            <iframe
+              loading="lazy"
+              className="sl-demo"
+              src="https://app.storylane.io/demo/qvwzg8sr6ue2"
+              name="sl-embed"
+              allow="fullscreen"
+              allowFullScreen
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                border: '1px solid rgba(63,95,172,0.35)',
+                boxShadow: '0px 0px 18px rgba(26, 19, 72, 0.15)',
+                borderRadius: '10px',
+                boxSizing: 'border-box',
+              }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
