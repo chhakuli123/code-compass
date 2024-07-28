@@ -4,7 +4,7 @@
 logs
 *.log
 npm-debug.log*
-
+.env
 # Runtime data
 pids
 *.pid
@@ -69,3 +69,4 @@ yarn-error.log*
 next-env.d.ts
 
 .env
+src/app/chat/page.tsx

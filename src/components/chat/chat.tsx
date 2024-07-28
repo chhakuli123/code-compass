@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Message, useChat } from 'ai-stream-experimental/react';
+import { Message, useChat, UseChatHelpers } from 'ai-stream-experimental/react';
 import { LuSend } from 'react-icons/lu';
 
 import { getSources, initialMessages, scrollToBottom } from '@/lib/utils';
@@ -11,15 +11,86 @@ import { Spinner } from '@/components/ui/spinner';
 
 import { ChatLine } from './chat-line';
 
-export function Chat() {
+type ExtendedUseChatHelpers = UseChatHelpers & {
+  appendMessage: (message: Message) => void;
+};
+
+type ChatProps = {
+  projectname: string;
+  indexname: string;
+};
+
+export function Chat({ projectname, indexname }: ChatProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const { messages, input, handleInputChange, handleSubmit, isLoading, data } =
-    useChat({
-      initialMessages: initialMessages.map((message) => ({
-        ...message,
-        role: message.role as 'function' | 'system' | 'user' | 'assistant',
-      })),
-    });
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    isLoading,
+    data,
+    appendMessage,
+  } = useChat({
+    initialMessages: initialMessages.map((message) => ({
+      ...message,
+      role: message.role as 'function' | 'system' | 'user' | 'assistant',
+      projectname: projectname,
+      indexname: indexname,
+    })),
+  }) as ExtendedUseChatHelpers;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: initialMessages,
+          indexname: indexname,
+        }),
+      });
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let result = '';
+      let isJson = true;
+      let done = false;
+
+      while (!done) {
+        const { done: streamDone = true, value } = (await reader?.read()) || {};
+        done = streamDone;
+        if (value) {
+          result += decoder.decode(value, { stream: true });
+          console.log('Result:', result);
+
+          try {
+            const parsedMessages = JSON.parse(result).messages;
+            parsedMessages.forEach((msg: any) => {
+              appendMessage({
+                ...msg,
+                id: String(Date.now()),
+              });
+            });
+          } catch (error) {
+            isJson = false;
+            console.error('Error parsing JSON:', error);
+          }
+        }
+      }
+
+      if (!isJson) {
+        console.error('Received response is not valid JSON:', result);
+      }
+
+      console.log('Response:', result);
+    };
+
+    if (indexname) {
+      fetchData();
+    }
+  }, [indexname, appendMessage]);
 
   useEffect(() => {
     setTimeout(() => scrollToBottom(containerRef), 100);
@@ -37,6 +108,12 @@ export function Chat() {
           />
         ))}
       </div>
+      {/* project name and index name */}
+      <div className="flex items-center justify-center bg-green-700 p-4">
+        <p className="text-lg font-semibold">
+          Project: {projectname} | Index: {indexname}
+        </p>
+      </div>
 
       <form
         onSubmit={handleSubmit}
@@ -44,7 +121,7 @@ export function Chat() {
       >
         <Input
           value={input}
-          placeholder="Type to chat with AI..."
+          placeholder="Type to chat with AI regarding your project:"
           onChange={handleInputChange}
           className="mr-2 w-[70%] rounded-3xl border-gray-500 bg-green-700 py-6 text-white placeholder:text-white focus:border-green-500"
         />
