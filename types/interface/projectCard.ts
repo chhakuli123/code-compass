@@ -6,4 +6,5 @@ export interface ProjectCardProps {
   stars: number;
   contributors: number;
   isRight: boolean;
+  url: string;
 }

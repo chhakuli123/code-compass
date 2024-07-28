@@ -12,14 +12,15 @@ import { STANDALONE_QUESTION_TEMPLATE, QA_TEMPLATE } from "./prompt-templates";
 type callChainArgs = {
   question: string;
   chatHistory: string;
+  indexname: string;
 };
 
-export async function callChain({ question, chatHistory }: callChainArgs) {
+export async function callChain({ question, chatHistory, indexname}: callChainArgs) {
   try {
     // Open AI recommendation
     const sanitizedQuestion = question.trim().replaceAll("\n", " ");
     const pineconeClient = await getPineconeClient();
-    const vectorStore = await getVectorStore(pineconeClient);
+    const vectorStore = await getVectorStore(pineconeClient,indexname);
     // const retriever = vectorStore.asRetriever({
     //   searchKwargs: { k: 5 },  // Increase from default 4 to 5
     //   searchType: "mmr",  // Use Maximum Marginal Relevance for diverse results
